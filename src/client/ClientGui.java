@@ -7,26 +7,29 @@ import javax.swing.JLabel;
 
 public class ClientGui {
 	
-	boolean stateInit = false;
+	boolean stateInit = true;
 	boolean stateConnected = false;
+	
+	JFrame frame = new JFrame();
 	
 	public void init() {
 			
 		//Frame init
-		JFrame frame = new JFrame();
+		//JFrame frame = new JFrame();
 		frame.setTitle("RemoteAD Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setUndecorated(false);
 		frame.getContentPane().setLayout(null);		
 		frame.setVisible(true);
+		frame.setSize(800, 800);
 		
 		int w = frame.getWidth();
 		int h = frame.getHeight();
 		
 		//Labels
 		
-		if(!stateInit) {
+		if(stateInit) {
 			JLabel splashText = new JLabel("RemoteAD Client");
 			splashText.setFont(new Font("Serif", Font.BOLD, 60));
 			splashText.setBounds(w / 2 - splashText.getPreferredSize().width / 2, h / 2 - splashText.getPreferredSize().height / 2, splashText.getPreferredSize().width, splashText.getPreferredSize().height);
@@ -47,5 +50,11 @@ public class ClientGui {
 			waitingForTrigger.setBounds(10, state.getPreferredSize().height + 10, waitingForTrigger.getPreferredSize().width, waitingForTrigger.getPreferredSize().height);
 			frame.getContentPane().add(waitingForTrigger);
 		}
+	}
+	
+	public void reloadFrame() {
+		frame.revalidate();
+		frame.repaint();
+		System.out.println("repaint frame");
 	}
 }

@@ -19,7 +19,8 @@ public class ServerGui {
 		frame.setUndecorated(false);
 		frame.getContentPane().setLayout(null);		
 		frame.setVisible(true);
-	
+		frame.setSize(800, 800);
+
 		int w = frame.getWidth();
 		int h = frame.getHeight();
 		

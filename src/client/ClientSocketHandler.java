@@ -12,20 +12,29 @@ public class ClientSocketHandler  extends Thread {
 		DataInputStream in = null;
 		DataOutputStream out = null;
 		
+		ClientGui gui = new ClientGui();
+		
 		//Attempt server connection
 		try {
-			socket = new Socket("client.remotead.thedutchmc.nl", 888);
+			socket = new Socket("192.168.1.24", 888);
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
+			gui.stateConnected = true;
+			gui.stateInit = false;
+			gui.reloadFrame();
+			System.out.println("connected");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 		
 		// cleanup
 		out.close();
 		in.close();
 		socket.close();
+	}
+	
+	public void connect() throws Exception {
+		new ClientSocketHandler();
 	}
 	
 

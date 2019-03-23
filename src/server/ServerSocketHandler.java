@@ -20,19 +20,23 @@ public class ServerSocketHandler {
 		
 		//Start socket
 		try {
-			serverSocket = new ServerSocket(888);
+			serverSocket = new ServerSocket(8008);
 			System.out.println("Server Started");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Couldn't create socket on port 888");
+			System.err.println("Couldn't create socket on port 8008");
 			System.exit(1);
 		}
 		
 		//Listen for clients
 		try {
-			Socket newClientSocket = serverSocket.accept();
-			synchronized(this) {
+			while(true) {
+				Socket newClientSocket = serverSocket.accept();
+				synchronized(this) {
 				clients.add(newClientSocket);
+				}
+				ClientConnector connector = new ClientConnector(this, newClientSocket);
+				connector.start();
 			}
 			
 		} catch(Exception e) {
@@ -40,11 +44,19 @@ public class ServerSocketHandler {
 			e.printStackTrace(System.err);
 		}
 	}
+	
+	public void removeClient(Socket socket) {
+		synchronized(this) {
+			clients.remove(socket);
+		}
+	}
 	class ClientConnector extends Thread {
 		private Socket socket;
+		private ServerSocketHandler server;
 
-		public ClientConnector(Socket socket) {
+		public ClientConnector(ServerSocketHandler server, Socket socket) {
 			this.socket = socket;
+			this.server = server;
 		}
 		 
 		public void run() {
@@ -53,11 +65,28 @@ public class ServerSocketHandler {
 			try {
 				in = new DataInputStream(this.socket.getInputStream()); // create input stream for listening for incoming messages
 			} catch (IOException e) {
-				System.err.println("[system] could not open input stream!");
+				System.err.println("Failed to open input stream");
 				e.printStackTrace(System.err);
 				return;
 			}
-		} 
-
+			
+			while(true) {
+				String msg_rec;
+				try {
+					msg_rec = in.readUTF();
+				} catch (Exception e) {
+					System.err.println("Issue with reading Client message!");
+					e.printStackTrace(System.err);
+					this.server.removeClient(this.socket);
+					return;
+				}
+				
+				if(msg_rec.length() == 0) {
+					continue;
+				}
+				
+				System.out.println(this.socket.getPort() + ": " + msg_rec);
+			}
+ 		} 
 	}
 }

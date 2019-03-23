@@ -7,10 +7,12 @@ import javax.swing.JLabel;
 
 public class ClientGui {
 	
-	boolean stateInit = true;
-	boolean stateConnected = false;
+	public JFrame frame = new JFrame();
 	
-	JFrame frame = new JFrame();
+	public JLabel splashText = new JLabel("RemoteAD Client");
+	public JLabel stateInit = new JLabel("Initializing");
+	public JLabel stateConnected = new JLabel("Connected to server");
+	public JLabel waitingForTrigger = new JLabel("Waiting for Sensor Trigger");
 	
 	public void init() {
 			
@@ -27,34 +29,34 @@ public class ClientGui {
 		int w = frame.getWidth();
 		int h = frame.getHeight();
 		
-		//Labels
+		//Labels for init State
+		splashText.setFont(new Font("Serif", Font.BOLD, 60));
+		splashText.setBounds(w / 2 - splashText.getPreferredSize().width / 2, h / 2 - splashText.getPreferredSize().height / 2, splashText.getPreferredSize().width, splashText.getPreferredSize().height);
+		frame.getContentPane().add(splashText);
 		
-		if(stateInit) {
-			JLabel splashText = new JLabel("RemoteAD Client");
-			splashText.setFont(new Font("Serif", Font.BOLD, 60));
-			splashText.setBounds(w / 2 - splashText.getPreferredSize().width / 2, h / 2 - splashText.getPreferredSize().height / 2, splashText.getPreferredSize().width, splashText.getPreferredSize().height);
-			frame.getContentPane().add(splashText);
+		stateInit.setFont(new Font("Serif", Font.BOLD, 30));
+		stateInit.setBounds(w / 2 - stateInit.getPreferredSize().width / 2, h / 2 - stateInit.getPreferredSize().height + splashText.getPreferredSize().height + 5, stateInit.getPreferredSize().width, stateInit.getPreferredSize().height);
+		frame.getContentPane().add(stateInit);
+
+		//Labels for connected State
+		stateConnected.setFont(new Font("Serif", Font.PLAIN, 25));
+		stateConnected.setBounds(10, 10, stateConnected.getPreferredSize().width, stateConnected.getPreferredSize().height);
 			
-			JLabel state = new JLabel("Initializing");
-			state.setFont(new Font("Serif", Font.BOLD, 30));
-			state.setBounds(w / 2 - state.getPreferredSize().width / 2, h / 2 - state.getPreferredSize().height + splashText.getPreferredSize().height + 5, state.getPreferredSize().width, state.getPreferredSize().height);
-			frame.getContentPane().add(state);
-		} else if(stateConnected) { //If Connected to Server
-			JLabel state = new JLabel("Connected to server");
-			state.setFont(new Font("Serif", Font.PLAIN, 25));
-			state.setBounds(10, 10, state.getPreferredSize().width, state.getPreferredSize().height);
-			frame.getContentPane().add(state);
-			
-			JLabel waitingForTrigger = new JLabel("Waiting for Sensor Trigger");
-			waitingForTrigger.setFont(new Font("Serif", Font.PLAIN, 15));
-			waitingForTrigger.setBounds(10, state.getPreferredSize().height + 10, waitingForTrigger.getPreferredSize().width, waitingForTrigger.getPreferredSize().height);
-			frame.getContentPane().add(waitingForTrigger);
-		}
+		waitingForTrigger.setFont(new Font("Serif", Font.PLAIN, 15));
+		waitingForTrigger.setBounds(10, stateConnected.getPreferredSize().height + 10, waitingForTrigger.getPreferredSize().width, waitingForTrigger.getPreferredSize().height);
 	}
 	
-	public void reloadFrame() {
+	
+	//Change fron init to connected state
+	public void setConnectedState() {		
+		frame.remove(splashText);
+		frame.remove(stateInit);
+		frame.add(stateConnected);
+		frame.add(waitingForTrigger);
+
 		frame.revalidate();
 		frame.repaint();
-		System.out.println("repaint frame");
+		
+		System.out.println("Changing Frame to ConnectedState");
 	}
 }

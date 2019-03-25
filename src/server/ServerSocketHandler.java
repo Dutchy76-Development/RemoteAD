@@ -1,15 +1,22 @@
 package server;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ServerSocketHandler {
-
-	protected List<Socket> clients = new ArrayList<Socket>();
+	
+	List<Socket> clients = new ArrayList<Socket>();
+	Socket newClientSocket;
 	
 	public void openSocket() {
 		new ServerSocketHandler();
@@ -31,9 +38,17 @@ public class ServerSocketHandler {
 		//Listen for clients
 		try {
 			while(true) {
-				Socket newClientSocket = serverSocket.accept();
+				newClientSocket = serverSocket.accept();
 				synchronized(this) {
 				clients.add(newClientSocket);
+				
+				String clientSocket = newClientSocket.toString();
+				
+				BufferedWriter writer = new BufferedWriter(new FileWriter("src/server/clients.txt"));
+				writer.write(clientSocket);
+				writer.close();
+				
+				//clientsMap.put(null, newClientSocket);
 				}
 				ClientConnector connector = new ClientConnector(this, newClientSocket);
 				connector.start();
@@ -85,6 +100,49 @@ public class ServerSocketHandler {
 					continue;
 				}
 				
+				if(msg_rec != null) {
+					System.out.println("Splitting msg_rec");
+					String[] msg_rec_array;
+					msg_rec_array = msg_rec.split(",");
+					
+					for(int i = 0; i < msg_rec_array.length; i++) {
+						System.out.println(msg_rec_array[i]);
+					}
+				
+					String idAsString = msg_rec_array[0];
+					int id = Integer.valueOf(idAsString);
+					
+					String message = msg_rec_array[1];
+
+					try {
+						String clientSocket = this.socket.toString();
+						BufferedWriter writer = new BufferedWriter(new FileWriter("src/server/clients.txt"));
+						
+						BufferedReader reader = new BufferedReader(new FileReader("src/server/clients.txt"));
+						
+						StringBuilder content = new StringBuilder();
+						String line;
+						while((line = reader.readLine()) != null) {
+							content.append(line);
+							content.append(System.lineSeparator());
+							
+							System.out.println(line);
+						}
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					//clientsMap.replace(null, null, id);
+					
+					//System.out.println(clientsMap.get(id));
+					
+					if(message.equalsIgnoreCase("reqKey")) {
+						//TODO
+						//Call KeyFinder
+						System.out.println("Request Key from database");
+					}
+				}
 				System.out.println(this.socket.getPort() + ": " + msg_rec);
 			}
  		} 

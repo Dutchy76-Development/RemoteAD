@@ -9,7 +9,7 @@ public class Server {
 		gui.init();
 		
 		
-		//Start the SocketHandler and get server online
+		//Start the SocketHandler and get server online 
 		final ServerSocketHandler handler = new ServerSocketHandler();
 		handler.openSocket();
 	}

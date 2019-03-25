@@ -1,5 +1,7 @@
 package client;
 
+import client.gui.ClientGui;
+
 public class Client {
 
 	public static void main(String[] args) {

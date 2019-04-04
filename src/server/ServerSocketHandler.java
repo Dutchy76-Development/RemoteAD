@@ -1,23 +1,21 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+
+import client.Client;
 
 public class ServerSocketHandler {
 	
-	List<Socket> clients = new ArrayList<Socket>();
+	static List<Clients> clients = new ArrayList<Clients>();
+	List<Socket> clientsSocket = new ArrayList<Socket>();
+	//HashMap<Integer, Clients> clientsHash = new HashMap<>();
 	Socket newClientSocket;
-	
+		
 	public void openSocket() {
 		new ServerSocketHandler();
 	}
@@ -35,21 +33,23 @@ public class ServerSocketHandler {
 			System.exit(1);
 		}
 		
-		//Listen for clients
+		//Listen for clients & redirect them to ClientConnector
 		try {
 			while(true) {
 				newClientSocket = serverSocket.accept();
 				synchronized(this) {
-				clients.add(newClientSocket);
-				
-				String clientSocket = newClientSocket.toString();
-				
-				BufferedWriter writer = new BufferedWriter(new FileWriter("src/server/clients.txt"));
-				writer.write(clientSocket);
-				writer.close();
-				
-				//clientsMap.put(null, newClientSocket);
+					clientsSocket.add(newClientSocket);
+										
+					//clientsObj.add(new Clients(newClientSocket, 0, false));
+					
+					Clients clientList = new Clients(0, newClientSocket, false);
+					
+					String clientId = getClientBySocket(newClientSocket).getSocket().toString();
+					System.err.println(clientId);
+					
+					System.err.println(clientList.getSocket());
 				}
+				
 				ClientConnector connector = new ClientConnector(this, newClientSocket);
 				connector.start();
 			}
@@ -65,6 +65,8 @@ public class ServerSocketHandler {
 			clients.remove(socket);
 		}
 	}
+	
+	//Connect Client & handle messages
 	class ClientConnector extends Thread {
 		private Socket socket;
 		private ServerSocketHandler server;
@@ -73,7 +75,7 @@ public class ServerSocketHandler {
 			this.socket = socket;
 			this.server = server;
 		}
-		 
+		
 		public void run() {
 			System.out.println("Client Connected with name: " + this.socket.getInetAddress().getHostName());
 			DataInputStream in;
@@ -85,6 +87,7 @@ public class ServerSocketHandler {
 				return;
 			}
 			
+			//Read client's message
 			while(true) {
 				String msg_rec;
 				try {
@@ -100,7 +103,8 @@ public class ServerSocketHandler {
 					continue;
 				}
 				
-				if(msg_rec != null) {
+				//Process Message
+				if(msg_rec != null) {    
 					System.out.println("Splitting msg_rec");
 					String[] msg_rec_array;
 					msg_rec_array = msg_rec.split(",");
@@ -109,42 +113,37 @@ public class ServerSocketHandler {
 						System.out.println(msg_rec_array[i]);
 					}
 				
-					String idAsString = msg_rec_array[0];
-					int id = Integer.valueOf(idAsString);
+					int id = 0;
 					
-					String message = msg_rec_array[1];
-
+					String idAsString = msg_rec_array[0];
 					try {
-						String clientSocket = this.socket.toString();
-						BufferedWriter writer = new BufferedWriter(new FileWriter("src/server/clients.txt"));
-						
-						BufferedReader reader = new BufferedReader(new FileReader("src/server/clients.txt"));
-						
-						StringBuilder content = new StringBuilder();
-						String line;
-						while((line = reader.readLine()) != null) {
-							content.append(line);
-							content.append(System.lineSeparator());
-							
-							System.out.println(line);
-						}
-						
-					} catch (IOException e) {
+						id = Integer.valueOf(idAsString);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					
-					//clientsMap.replace(null, null, id);
+					String message = msg_rec_array[1];
 					
-					//System.out.println(clientsMap.get(id));
+					clients.add(new Clients(id, newClientSocket, true));
 					
 					if(message.equalsIgnoreCase("reqKey")) {
-						//TODO
-						//Call KeyFinder
+						//TODO: KeyFinder
+						
 						System.out.println("Request Key from database");
 					}
 				}
 				System.out.println(this.socket.getPort() + ": " + msg_rec);
 			}
  		} 
+	}
+	
+	
+	//TEMP
+	public static Clients getClientBySocket(Socket socket) {
+		for(Clients client : clients) {
+			if(client.getSocket() == socket) {
+				return client;
+			}
+		} return null;
 	}
 }

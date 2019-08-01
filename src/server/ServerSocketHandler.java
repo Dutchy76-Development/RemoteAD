@@ -1,19 +1,22 @@
 package server;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import client.Client;
 
 public class ServerSocketHandler {
 	
-	static List<Clients> clients = new ArrayList<Clients>();
+	//List<Clients> clients = new ArrayList<Clients>();
 	List<Socket> clientsSocket = new ArrayList<Socket>();
-	//HashMap<Integer, Clients> clientsHash = new HashMap<>();
+	HashMap<Socket, Integer> clientsHash = new HashMap<Socket, Integer>();
+	HashMap<Integer, Socket> finalClientRegister = new HashMap<Integer, Socket>();
 	Socket newClientSocket;
 		
 	public void openSocket() {
@@ -39,15 +42,11 @@ public class ServerSocketHandler {
 				newClientSocket = serverSocket.accept();
 				synchronized(this) {
 					clientsSocket.add(newClientSocket);
-										
-					//clientsObj.add(new Clients(newClientSocket, 0, false));
 					
-					Clients clientList = new Clients(0, newClientSocket, false);
+					//Put the client in Hashmap
+					clientsHash.put(newClientSocket, 0);
+					System.err.println(clientsHash.get(newClientSocket));
 					
-					String clientId = getClientBySocket(newClientSocket).getSocket().toString();
-					System.err.println(clientId);
-					
-					System.err.println(clientList.getSocket());
 				}
 				
 				ClientConnector connector = new ClientConnector(this, newClientSocket);
@@ -62,7 +61,7 @@ public class ServerSocketHandler {
 	
 	public void removeClient(Socket socket) {
 		synchronized(this) {
-			clients.remove(socket);
+			//clients.remove(socket);
 		}
 	}
 	
@@ -79,10 +78,12 @@ public class ServerSocketHandler {
 		public void run() {
 			System.out.println("Client Connected with name: " + this.socket.getInetAddress().getHostName());
 			DataInputStream in;
+			DataOutputStream out;
 			try {
 				in = new DataInputStream(this.socket.getInputStream()); // create input stream for listening for incoming messages
+				out = new DataOutputStream(this.socket.getOutputStream());
 			} catch (IOException e) {
-				System.err.println("Failed to open input stream");
+				System.err.println("Failed to open input or output stream");
 				e.printStackTrace(System.err);
 				return;
 			}
@@ -118,16 +119,25 @@ public class ServerSocketHandler {
 					String idAsString = msg_rec_array[0];
 					try {
 						id = Integer.valueOf(idAsString);
+						clientsHash.put(socket, id);
+						System.out.println("ClientsHash: " + clientsHash.get(socket));
+						
+						finalClientRegister.put(id, socket);
+						System.out.println("finalClientRegister Entry: " + finalClientRegister.get(id));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					
+					
 					String message = msg_rec_array[1];
-					
-					clients.add(new Clients(id, newClientSocket, true));
-					
+										
 					if(message.equalsIgnoreCase("reqKey")) {
 						//TODO: KeyFinder
+						
+						// A test (TEMP CODE)
+						ServerSocketSender SSS = new ServerSocketSender();
+						SSS.sendMessage("This will be a key", socket);
+						//END OF TEST CODE
 						
 						System.out.println("Request Key from database");
 					}
@@ -139,11 +149,11 @@ public class ServerSocketHandler {
 	
 	
 	//TEMP
-	public static Clients getClientBySocket(Socket socket) {
+	/*public static Clients getClientBySocket(Socket socket) {
 		for(Clients client : clients) {
 			if(client.getSocket() == socket) {
 				return client;
 			}
 		} return null;
-	}
+	}*/
 }

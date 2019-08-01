@@ -24,6 +24,10 @@ public class ClientSocketHandler  extends Thread {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 
+			System.out.println("Trying to receive message!");
+			final ClientSocketReceiver receiver = new ClientSocketReceiver(in);
+			receiver.start();
+			
 			gui.setConnectedState();
 			System.out.println("connected");
 		} catch (Exception e) {

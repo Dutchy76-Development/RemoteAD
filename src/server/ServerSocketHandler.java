@@ -39,15 +39,21 @@ public class ServerSocketHandler {
 					newClientSocket = serverSocket.accept();
 					clientsSocket.add(newClientSocket);
 <<<<<<< HEAD
+<<<<<<< HEAD
 					ClientConnector connector = new ClientConnector(this, newClientSocket);
 					connector.start();
 					this.run();
 =======
+=======
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
 					
 					//Put the client in Hashmap
 					clientsHash.put(newClientSocket, 0);
 					System.err.println(clientsHash.get(newClientSocket));
 					
+<<<<<<< HEAD
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
+=======
 >>>>>>> 297275866751761321b6922181ba7e98c8829c02
 				}
 			}
@@ -87,7 +93,11 @@ public class ServerSocketHandler {
 				out = new DataOutputStream(this.socket.getOutputStream());
 			} catch (IOException e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				System.err.println("[ServerSocketHandler] Failed to open input stream");
+=======
+				System.err.println("Failed to open input or output stream");
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
 =======
 				System.err.println("Failed to open input or output stream");
 >>>>>>> 297275866751761321b6922181ba7e98c8829c02
@@ -123,11 +133,15 @@ public class ServerSocketHandler {
 						
 						finalClientRegister.put(id, socket);
 						System.out.println("finalClientRegister Entry: " + finalClientRegister.get(id));
+<<<<<<< HEAD
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
+=======
 >>>>>>> 297275866751761321b6922181ba7e98c8829c02
 					} catch (Exception e) {
 						System.err.println("[ServerSocketHandler] Unable to grab UUID, Does the UUID consist of numbers, and only numbers?");
 					}
 					
+<<<<<<< HEAD
 <<<<<<< HEAD
 					String message = msgReceivedArray[1];
 					
@@ -139,14 +153,20 @@ public class ServerSocketHandler {
 =======
 >>>>>>> 297275866751761321b6922181ba7e98c8829c02
 					
+=======
+					
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
 					String message = msg_rec_array[1];
 										
 					if(message.equalsIgnoreCase("reqKey")) {
 						//TODO: KeyFinder
 						
 <<<<<<< HEAD
+<<<<<<< HEAD
 						System.out.println("[ALPHA] Request Key from database");
 =======
+=======
+>>>>>>> 297275866751761321b6922181ba7e98c8829c02
 						// A test (TEMP CODE)
 						ServerSocketSender SSS = new ServerSocketSender();
 						SSS.sendMessage("This will be a key", socket);

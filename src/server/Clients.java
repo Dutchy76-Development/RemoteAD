@@ -14,6 +14,7 @@ public class Clients {
 		this.enabled = enabled;
 	}
 	
+	
 	//Socket
 	public Socket getSocket() {
 		return this.socket;

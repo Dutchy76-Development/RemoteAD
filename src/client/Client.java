@@ -1,7 +1,5 @@
 package client;
 
-import client.gui.ClientGui;
-
 public class Client {
 
 	public static void main(String[] args) {
@@ -27,6 +25,8 @@ public class Client {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+
 		
 	}
 }

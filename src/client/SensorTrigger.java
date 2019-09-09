@@ -34,13 +34,12 @@ public class SensorTrigger {
 			String sCurrentLine;
 			
 			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
 				uuid = sCurrentLine;
+				System.out.println("Client UUID: " + uuid);
 			}
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
-		
 		return uuid;
 	}
 }

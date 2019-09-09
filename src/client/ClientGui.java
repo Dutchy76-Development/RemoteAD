@@ -1,4 +1,4 @@
-package client.gui;
+package client;
 
 import java.awt.Font;
 

@@ -8,12 +8,12 @@ public class Clients {
 	private int id;
 	private boolean enabled;
 	
+	
 	public Clients(int id, Socket socket, boolean enabled) {
 		this.socket = socket;
 		this.id = id;
 		this.enabled = enabled;
 	}
-	
 	
 	//Socket
 	public Socket getSocket() {

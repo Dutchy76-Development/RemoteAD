@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerSocketHandler {
 	
 	//List<Clients> clients = new ArrayList<Clients>();
 	List<Socket> clientsSocket = new ArrayList<Socket>();
+	public HashMap<Integer,Socket> clientIds = new HashMap<Integer, Socket>();
 	Socket newClientSocket;
 	ServerSocket serverSocket = null;
 
@@ -70,6 +73,7 @@ public class ServerSocketHandler {
 		public void run() {
 			System.out.println("[ServerSocketHandler] Client Connected with name: " + this.socket.getInetAddress().getHostName());
 			DataInputStream in;
+			@SuppressWarnings("unused")
 			DataOutputStream out;
 			try {
 				in = new DataInputStream(this.socket.getInputStream()); // create input stream for listening for incoming messages
@@ -111,6 +115,18 @@ public class ServerSocketHandler {
 						System.err.println("[ServerSocketHandler] Unable to grab UUID, Does the UUID consist of numbers, and only numbers?");
 					}
 					new Clients(id, newClientSocket, true);
+					
+					for(Map.Entry<Integer, Socket> entry : clientIds.entrySet()) {
+						int key = entry.getKey();
+						if(id == key) {
+							System.err.println("[ServerSocketHandler] Client ID already exists, closing socket!");
+							try {
+								socket.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
 					System.out.println("[ServerSocketHandler] Client " + socket.getInetAddress().getHostName() + " Has ID: " + id);
 					
 					System.out.println("[ServerSocketHandler] Starting new listener...");

@@ -62,4 +62,31 @@ public class ClientSocketHandler  extends Thread {
 			System.out.println("Not Connected, Not sending keyReq");
 		}
 	}
+	
+	class checkIfConnected {
+		
+		private Socket socket;
+		
+		public checkIfConnected(Socket socket) {
+			this.socket = socket;
+		}
+		
+		void run() {
+			if(socket.isConnected()) {
+				System.err.println("[ClientSocketHandler] Socket is closed!");
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				ClientSocketHandler handler;
+				try {
+					handler = new ClientSocketHandler();
+					handler.connect();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

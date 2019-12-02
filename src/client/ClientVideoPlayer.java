@@ -1,3 +1,10 @@
+/*
+Copyright (C) Tobias de Bruijn
+
+Under domain thedutchmc.nl
+
+You are not allowed to redistribute this code as your own!
+*/
 package client;
 
 import javafx.application.Application;

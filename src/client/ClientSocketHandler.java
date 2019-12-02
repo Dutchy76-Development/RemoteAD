@@ -1,3 +1,11 @@
+/*
+Copyright (C) Tobias de Bruijn
+
+Under domain thedutchmc.nl
+
+You are not allowed to redistribute this code as your own!
+*/
+
 package client;
 
 import java.io.DataInputStream;
@@ -26,8 +34,6 @@ public class ClientSocketHandler  extends Thread {
 
 		String ip = "192.168.1.7";
 		int port = 8028;
-		
-		ClientGui gui = new ClientGui();
 		
 		//Attempt server connection
 		try {

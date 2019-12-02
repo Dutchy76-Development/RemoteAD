@@ -2,6 +2,7 @@ package server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import server.clientHandler.Clients;
 
 public class ServerSocketHandler {
 	
@@ -22,7 +25,7 @@ public class ServerSocketHandler {
 	public void startServer() {
 		//Open socket
 		try {
-			serverSocket = new ServerSocket(8008);
+			serverSocket = new ServerSocket(8028);
 			System.out.println("[ServerSocketHandler] Server Started");
 			run();
 		} catch (Exception e) {
@@ -73,16 +76,13 @@ public class ServerSocketHandler {
 		public void run() {
 			System.out.println("[ServerSocketHandler] Client Connected with name: " + this.socket.getInetAddress().getHostName());
 			DataInputStream in;
-			@SuppressWarnings("unused")
 			DataOutputStream out;
 			try {
-				in = new DataInputStream(this.socket.getInputStream()); // create input stream for listening for incoming messages
+				in = new DataInputStream(this.socket.getInputStream());
 				out = new DataOutputStream(this.socket.getOutputStream());
 			} catch (IOException e) {
 
 				System.err.println("[ServerSocketHandler] Failed to open input stream");
-
-				System.err.println("Failed to open input or output stream");
 
 				System.err.println("Failed to open input or output stream");
 
@@ -91,15 +91,17 @@ public class ServerSocketHandler {
 			}
 			
 			//Read client's message
-			
 			while(true) {
-				String msg_rec;
+				String msg_rec = null;
 				try {
 					msg_rec = in.readUTF();
 				} catch (Exception e) {
-					System.err.println("[ServerSocketHandler] Issue with reading Client message!");
-					e.printStackTrace(System.err);
-					return;
+					if(e instanceof EOFException) {
+						continue;
+					} else {
+						System.err.println("[ServerSocketHandler] Issue with reading Client message!");
+						e.printStackTrace(System.err);
+					}
 				}
 				
 				//Process Message
@@ -132,15 +134,15 @@ public class ServerSocketHandler {
 					System.out.println("[ServerSocketHandler] Starting new listener...");
 
 					String message = msgReceivedArray[1];
+					
+					System.out.println(message);
 										
 					if(message.equalsIgnoreCase("reqKey")) {
 						//TODO: KeyFinder
 						
-						System.out.println("[ALPHA] Request Key from database");
-
-						// A test (TEMP CODE)
-						ServerSocketSender SSS = new ServerSocketSender();
-						SSS.sendMessage("This will be a key", socket);
+						System.out.println("[ALPHA] Request Video from Database");
+						final ServerSocketSender sss = new ServerSocketSender();
+						sss.sendMessage("ABgDxowve3Q", socket, out);
 						//END OF TEST CODE
 						
 					}

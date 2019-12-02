@@ -1,27 +1,45 @@
 package client;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class ClientSocketReceiver extends Thread {
 	
 	public String receivedMessage;
 	private DataInputStream in;
+	private Socket socket;
 	
-	public ClientSocketReceiver(DataInputStream in) {
+	final Client client = new Client();
+	
+	public ClientSocketReceiver(DataInputStream in, Socket socket) {
 		this.in = in;
+		this.socket = socket;
 	}
 	
 	public void run() {
-		System.out.println("Receiver Thread started!");
-		try {
-			String message;
-			while((message = this.in.readUTF()) != null) {
-				receivedMessage = this.in.readUTF();
-				//TODO: Handling this
-				System.out.println(receivedMessage);
+		while(true) {
+			String msg_rec = null;
+			try {
+				msg_rec = in.readUTF();
+			} catch (Exception e) {
+				if(e instanceof EOFException) {
+					continue;
+				} else {
+					System.err.println("[ServerSocketHandler] Issue with reading reading message!");
+					e.printStackTrace(System.err);
+					break;
+				}
 			}
-		} catch (Exception e) {
-			
+				
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				break;
+			}
 		}
 	}
 }

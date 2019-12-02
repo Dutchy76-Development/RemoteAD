@@ -1,15 +1,8 @@
 package client;
 
 public class Client {
-
-	public static void main(String[] args) {
-		
-		//Start the GUI
-		final ClientGui gui = new ClientGui();
-		gui.init();
-		
-		//TEMP
-		//To be replaced with a SensorListener
+	public static void main(String[] args) throws Exception {
+	
 		final SensorTrigger trigger = new SensorTrigger();
 		try {
 			trigger.onTrigger();

@@ -6,7 +6,9 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package server;
+package nl.thedutchmc.remotead.server;
+
+import nl.thedutchmc.remotead.server.socket.ServerSocketHandler;
 
 public class Server {
 

@@ -6,7 +6,7 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package client;
+package nl.thedutchmc.remotead.client;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,8 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import nl.thedutchmc.remotead.client.socket.ClientSocketHandler;
 
 public class SensorTrigger {
 

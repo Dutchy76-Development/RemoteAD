@@ -6,7 +6,7 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package client;
+package nl.thedutchmc.remotead.client.socket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import nl.thedutchmc.remotead.client.Client;
+import nl.thedutchmc.remotead.client.ui.ClientVideoPlayer;
 
 public class ClientSocketHandler  extends Thread {
 

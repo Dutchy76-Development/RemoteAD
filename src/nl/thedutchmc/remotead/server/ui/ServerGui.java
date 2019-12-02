@@ -6,7 +6,7 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package server;
+package nl.thedutchmc.remotead.server.ui;
 
 import java.awt.Font;
 

@@ -5,7 +5,7 @@ Under domain thedutchmc.nl
 
 You are not allowed to redistribute this code as your own!
 */
-package server.clientHandler;
+package nl.thedutchmc.remotead.server.clientHandler;
 
 import java.util.ArrayList;
 import java.util.List;

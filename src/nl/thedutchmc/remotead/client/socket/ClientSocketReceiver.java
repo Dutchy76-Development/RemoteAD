@@ -6,13 +6,15 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package client;
+package nl.thedutchmc.remotead.client.socket;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
+
+import nl.thedutchmc.remotead.client.Client;
 
 public class ClientSocketReceiver extends Thread {
 	

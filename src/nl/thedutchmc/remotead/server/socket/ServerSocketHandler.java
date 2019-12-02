@@ -5,7 +5,7 @@ Under domain thedutchmc.nl
 
 You are not allowed to redistribute this code as your own!
 */
-package server;
+package nl.thedutchmc.remotead.server.socket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import server.clientHandler.Clients;
+import nl.thedutchmc.remotead.server.clientHandler.Clients;
 
 public class ServerSocketHandler {
 	

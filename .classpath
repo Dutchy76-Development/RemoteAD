@@ -2,13 +2,13 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.base.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.media.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.swing.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx.web.jar"/>
-	<classpathentry kind="lib" path="A:/Files/Eclipse/java/workspace/RemoteAD/src/client/libs/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.base.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.media.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="src/nl/thedutchmc/remotead/client/libs/javafx.web.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

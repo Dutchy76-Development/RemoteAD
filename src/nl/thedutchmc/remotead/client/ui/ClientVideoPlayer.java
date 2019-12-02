@@ -5,12 +5,13 @@ Under domain thedutchmc.nl
 
 You are not allowed to redistribute this code as your own!
 */
-package client;
+package nl.thedutchmc.remotead.client.ui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import nl.thedutchmc.remotead.client.socket.ClientSocketHandler;
 
 public class ClientVideoPlayer extends Application{
 	

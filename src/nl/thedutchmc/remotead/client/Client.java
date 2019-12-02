@@ -1,4 +1,6 @@
-package client;
+package nl.thedutchmc.remotead.client;
+
+import nl.thedutchmc.remotead.client.socket.ClientSocketHandler;
 
 public class Client {
 	public static void main(String[] args) throws Exception {

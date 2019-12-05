@@ -6,7 +6,7 @@ Under domain thedutchmc.nl
 You are not allowed to redistribute this code as your own!
 */
 
-package nl.thedutchmc.remotead.client;
+package nl.thedutchmc.remotead.client.pi4j;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 
 import nl.thedutchmc.remotead.client.socket.ClientSocketHandler;
 
-public class SensorTrigger {
+public class SensorTriggered {
 
 	//Run this when sennsor is triggered
 	//TODO
@@ -34,7 +34,7 @@ public class SensorTrigger {
 	public String getUuid() {
 		String uuid = null;
 		
-		String path = new File("src/client/uuid.txt").getAbsolutePath();
+		String path = new File("./uuid.txt").getAbsolutePath();
 		
 		BufferedReader br = null;
 		FileReader fr = null;

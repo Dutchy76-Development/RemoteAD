@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
+import javafx.application.Platform;
 import nl.thedutchmc.remotead.client.Client;
 import nl.thedutchmc.remotead.client.ui.ClientVideoPlayer;
+import nl.thedutchmc.remotead.client.ui.Ui;
 
 public class ClientSocketHandler  extends Thread {
 
@@ -27,7 +27,6 @@ public class ClientSocketHandler  extends Thread {
 	DataOutputStream out = null;
 	boolean connected = false;
 	
-	public static String videoKey;
 	String msg_rec = null;
 	
 	final Client client = new Client();
@@ -43,7 +42,6 @@ public class ClientSocketHandler  extends Thread {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 
-			System.out.println("Trying to receive message!");
 			SocketReceiver socketReceiver = new SocketReceiver(in, socket);
 			socketReceiver.start();
 			
@@ -51,7 +49,7 @@ public class ClientSocketHandler  extends Thread {
 			System.out.println("connected");
 			connected = true;
 		} catch (Exception e) {
-			System.out.println("unable to connect to server on IP: " + ip + ":" + port);
+			Client.log("Unable to connect to server on IP: " + ip + ":" + port);
 			try {
 				TimeUnit.SECONDS.sleep(5);
 			} catch (Exception e1) {
@@ -69,14 +67,14 @@ public class ClientSocketHandler  extends Thread {
 		
 		if(connected) {
 			try {
-				out.writeUTF("0002,reqKey");
+				out.writeUTF(uuid + ",reqKey");
 				out.flush();
 				System.out.println("reqKey send!");
 			} catch (IOException e) {
 				e.printStackTrace(System.err);
 			}
 		} else {
-			System.out.println("Not Connected, Not sending keyReq");
+			Client.log("Not Connected, Not sending keyReq");
 		}
 	}
 	
@@ -97,26 +95,34 @@ public class ClientSocketHandler  extends Thread {
 					
 					try {
 						msg_rec = in.readUTF();
-						System.out.println(msg_rec);
-						
-						
+							
 						//Start playing the video
-						new Thread() {
+						new Thread(new Runnable() {
 							@Override
 							public void run() {
 								System.out.println("Starting JavaFX app");
 								
-								videoKey = msg_rec;
-																
-								javafx.application.Application.launch(ClientVideoPlayer.class);
+								//Start the video player
+								Ui ui = new Ui();
+								
+								if(Ui.uiRunning) {
+									Platform.runLater(new Runnable() {
+										@Override
+										public void run() {
+											ui.playVideo(msg_rec);
+										}
+									});
+								} else {
+									Client.log("JavaFX Isn't running yet!");
+								}
 							}
-						}.start();
+						}).start();
 						
 					} catch (Exception e) {
 						if(e instanceof EOFException) {
 							continue;
 						} else {
-							System.err.println("[ClientSocketHandler] Issue with reading reading message!");
+							Client.log("[ClientSocketHandler] Issue with reading reading message!");
 							e.printStackTrace(System.err);
 							break;
 						}
@@ -130,7 +136,7 @@ public class ClientSocketHandler  extends Thread {
 					}
 				}
 			} else {
-				System.out.println("Im not connected!");
+				Client.log("Not connected to server!");
 			}
 		}
 	}
@@ -146,7 +152,7 @@ public class ClientSocketHandler  extends Thread {
 		
 		void run() {
 			if(socket.isConnected()) {
-				System.err.println("[ClientSocketHandler] Socket is closed!");
+				Client.log("Not connected to server");
 				try {
 					socket.close();
 				} catch (IOException e) {

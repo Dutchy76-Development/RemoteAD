@@ -24,14 +24,15 @@ public class Client {
 		
 		//COMMENT GPIO SECTION IF NOT ON PI!
 		
-		/*
+		
 		//GPIO
+		/*
 		log("Starting GPIO...");
 		final GpioSetup gpioSetup = new GpioSetup();
 		gpioSetup.initGpio();
-		log("Done.");*/
+		log("Done.");
 		
-		
+		*/
 		//Start the SocketHandler and Connect to the server
 		log("Starting ClientSocketHandler...");
 		try {
@@ -42,6 +43,7 @@ public class Client {
 		}
 		
 		//UNCOMMENT IF NOI ON PI
+		
 		
 		log("Sleeping for 1000 ms");
 		

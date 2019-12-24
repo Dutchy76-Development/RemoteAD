@@ -28,11 +28,7 @@ public class Ui extends Application {
 	@Override
 	public void start(Stage stage) {
 		Ui.stage = stage;		
-	/*	Group root = new Group();
-		Scene scene = new Scene(root, 300, 250);
-		root.setId("scene");
-		scene.getStylesheets().add(STYLESHEET_PATH);
-		*/
+
 		uiRunning = true;
 		
 		tr = Thread.currentThread();
@@ -61,7 +57,7 @@ public class Ui extends Application {
 	    webview.setPrefSize(640, 390);
 	    
 	    stage.setScene(new Scene(webview));
-	    stage.show(); 
+	    stage.show();
 }
 
 }
